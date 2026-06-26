@@ -1,0 +1,89 @@
+# Database Schema
+
+## Users
+
+* user_id (PK, INT, AUTO_INCREMENT)
+* username (VARCHAR(100), NOT NULL)
+* email (VARCHAR(100), UNIQUE, NOT NULL)
+* password (VARCHAR(255), NOT NULL)
+* role (VARCHAR(20), NOT NULL)
+* created_at (TIMESTAMP)
+
+## Categories
+
+* category_id (PK, INT, AUTO_INCREMENT)
+* category_name (VARCHAR(100), UNIQUE, NOT NULL)
+* description (TEXT)
+
+## Brands
+
+* brand_id (PK, INT, AUTO_INCREMENT)
+* brand_name (VARCHAR(100), UNIQUE, NOT NULL)
+* description (TEXT)
+
+## Products
+
+* product_id (PK, INT, AUTO_INCREMENT)
+* category_id (FK, INT, NOT NULL)
+* brand_id (FK, INT, NOT NULL)
+* product_name (VARCHAR(255), NOT NULL)
+* price (DECIMAL(10,2), NOT NULL)
+* stock_quantity (INT, DEFAULT 0)
+* description (TEXT)
+* image_url (VARCHAR(255))
+* created_at (TIMESTAMP)
+
+## Specification_Templates
+
+* template_id (PK, INT, AUTO_INCREMENT)
+* category_id (FK, INT, NOT NULL)
+* specification_name (VARCHAR(100), NOT NULL)
+
+## Product_Specifications
+
+* specification_id (PK, INT, AUTO_INCREMENT)
+* product_id (FK, INT, NOT NULL)
+* template_id (FK, INT, NOT NULL)
+* specification_value (VARCHAR(255), NOT NULL)
+
+## Cart
+
+* cart_id (PK, INT, AUTO_INCREMENT)
+* user_id (FK, INT, NOT NULL)
+* created_at (TIMESTAMP)
+
+## Cart_Items
+
+* cart_item_id (PK, INT, AUTO_INCREMENT)
+* cart_id (FK, INT, NOT NULL)
+* product_id (FK, INT, NOT NULL)
+* quantity (INT, NOT NULL)
+
+## Orders
+
+* order_id (PK, INT, AUTO_INCREMENT)
+* user_id (FK, INT, NOT NULL)
+* order_date (DATE, NOT NULL)
+* total_amount (DECIMAL(10,2), NOT NULL)
+* order_status (VARCHAR(50), NOT NULL)
+
+## Order_Items
+
+* order_item_id (PK, INT, AUTO_INCREMENT)
+* order_id (FK, INT, NOT NULL)
+* product_id (FK, INT, NOT NULL)
+* quantity (INT, NOT NULL)
+* unit_price (DECIMAL(10,2), NOT NULL)
+
+## Reviews
+
+* review_id (PK, INT, AUTO_INCREMENT)
+* user_id (FK, INT, NOT NULL)
+* product_id (FK, INT, NOT NULL)
+* rating (INT, CHECK rating BETWEEN 1 AND 5)
+* comment (TEXT)
+* review_date (DATE)
+
+Admin Panel:
+User: w@J1h
+Passsword: AmiWajih
