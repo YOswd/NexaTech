@@ -104,7 +104,7 @@ END;
 CREATE TABLE Specification_Templates (
     template_id NUMBER PRIMARY KEY,
     category_id NUMBER NOT NULL,
-    specification_name VARCHAR(100) NOT NULL,
+    specification_name VARCHAR(100) UNIQUE NOT NULL,
     FOREIGN KEY(category_id) REFERENCES Categories(category_id)
 );
 
@@ -145,7 +145,7 @@ CREATE TABLE Purchases (
     purchase_id NUMBER PRIMARY KEY,
     supplier_id NUMBER NOT NULL,
     purchase_date DATE DEFAULT SYSDATE,
-    total_amount NUMBER CHECK (price >= 0),
+    total_amount NUMBER CHECK (total_amount >= 0),
     FOREIGN KEY(supplier_id) REFERENCES Suppliers(supplier_id)
 );
 
@@ -166,7 +166,7 @@ CREATE TABLE Purchase_Items (
     purchase_id NUMBER NOT NULL,
     product_id NUMBER NOT NULL,
     quantity NUMBER CHECK (quantity > 0),
-    unit_cost NUMBER CHECK (price >= 0),
+    unit_cost NUMBER CHECK (unit_cost >= 0),
     FOREIGN KEY(purchase_id) REFERENCES Purchases(purchase_id),
     FOREIGN KEY(product_id) REFERENCES Products(product_id)
 );
@@ -227,7 +227,7 @@ CREATE TABLE Orders (
     order_id NUMBER PRIMARY KEY,
     user_id NUMBER NOT NULL,
     order_date DATE DEFAULT SYSDATE,
-    total_amount NUMBER CHECK (price >= 0),
+    total_amount NUMBER CHECK (total_amount >= 0),
     order_status VARCHAR(50) NOT NULL,
     FOREIGN KEY(user_id) REFERENCES Users(user_id)
 );
@@ -249,7 +249,7 @@ CREATE TABLE Order_Items (
     order_id NUMBER NOT NULL,
     product_id NUMBER NOT NULL,
     quantity NUMBER CHECK (quantity > 0),
-    unit_price NUMBER CHECK (price >= 0),
+    unit_price NUMBER CHECK (unit_price >= 0),
     FOREIGN KEY(order_id) REFERENCES Orders(order_id),
     FOREIGN KEY(product_id) REFERENCES Products(product_id)
 );
