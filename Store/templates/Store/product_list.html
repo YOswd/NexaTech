@@ -1,0 +1,28 @@
+{% extends 'Store/layout.html' %}
+
+{% block title %}
+
+Products
+
+{% endblock %}
+
+{% block content %}
+
+<h1>All Products</h1>
+
+{% for product in products %}
+
+<div class="product-card">
+    <h3>{{ product.product_name }}</h3>
+    <p>Price : {{ product.price }}</p>
+    <p>Stock : {{ product.stock_quantity }}</p>
+    <a href="/product/{{ product.id }}/">View Details</a>
+</div>
+
+{% empty %}
+
+<p>No products available.</p>
+
+{% endfor %}
+
+{% endblock %}

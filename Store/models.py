@@ -35,6 +35,9 @@ class Supplier(models.Model):
     phone_no = models.CharField(max_length=11, unique=True)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.supplier_name
     
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -62,7 +65,7 @@ class ProductSpecification(models.Model):
     specification_value = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.specification_value
+        return f"{self.product.product_name}"
 
 class Purchase(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
@@ -70,7 +73,7 @@ class Purchase(models.Model):
     amount = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.amount
+        return f"{self.supplier.supplier_name}"
 
 class PurchaseItem(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
@@ -79,14 +82,14 @@ class PurchaseItem(models.Model):
     cost = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.quantity
+        return f"{self.product.product_name}"
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.created_at
+        return f"{self.user.username}"
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
@@ -94,7 +97,7 @@ class CartItem(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.quantity
+        return f"{self.product.product_name}"
     
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -103,7 +106,7 @@ class Order(models.Model):
     status = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.status
+        return f"{self.user.username}"
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -112,7 +115,7 @@ class OrderItem(models.Model):
     price = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.quantity
+        return f"{self.product.product_name}"
     
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -122,4 +125,4 @@ class Review(models.Model):
     date = models.DateTimeField()
 
     def __str__(self):
-        return self.comment
+        return f"{self.user.username}"

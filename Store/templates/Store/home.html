@@ -1,0 +1,66 @@
+{% extends 'Store/layout.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+
+<div class="hero text-center">
+    <h1 class="display-4 fw-bold">
+        Welcome to NexaTech Solutions
+    </h1>
+
+    <p class="lead">
+        Your trusted destination for laptops, desktops and accessories.
+    </p>
+
+    <a href="{% url 'product_list' %}" class="btn btn-warning btn-lg">
+        Shop Now
+    </a>
+</div>
+
+<!-- Latest Products -->
+
+<h2 class="mb-4">Latest Products</h2>
+
+<div class="row">
+
+{% for product in products %}
+
+<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+    <div class="card product-card shadow-sm h-100">
+
+        {% if product.image %}
+
+        <img
+        src="{{ product.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;">
+
+        {% else %}
+
+        <img src="https://placehold.co/300x220" class="card-img-top">
+
+        {% endif %}
+
+        <div class="card-body">
+            <h5>{{ product.product_name }}</h5>
+            <p class="text-success fw-bold">Tk {{ product.price }}</p>
+            <p>Stock :{{ product.stock_quantity }}</p>
+        </div>
+
+        <div class="card-footer bg-white">
+            <a href="{% url 'product_details' product.id %}" class="btn btn-primary w-100">
+                View Details
+            </a>
+
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 CREATE OR REPLACE PROCEDURE restock_product(
-    p_product_id IN NUMBER
+    p_product_id IN NUMBER,
     p_quantity IN NUMBER
 )
 AS
@@ -19,18 +19,18 @@ BEGIN
        RAISE_APPLICATION_ERROR(
         -20011,
         'Product not found.'
-       )
+       );
     END IF;
 END;
 /
 
 CREATE OR REPLACE PROCEDURE update_product_price(
-    p_product_id IN NUMBER
+    p_product_id IN NUMBER,
     p_new_price IN NUMBER
 )
 AS
 BEGIN
-    IF p_new_price <=0 THEN
+    IF p_new_price <= 0 THEN
       RAISE_APPLICATION_ERROR(
         -20010,
         'Price must be greater than zero.'
@@ -45,7 +45,7 @@ BEGIN
        RAISE_APPLICATION_ERROR(
         -20011,
         'Product not found.'
-       )
+       );
     END IF;
 END;
 /
