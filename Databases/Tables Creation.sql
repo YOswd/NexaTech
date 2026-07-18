@@ -288,3 +288,23 @@ BEGIN
     END IF;
 END;
 /
+
+CREATE TABLE Showrooms (
+    showroom_id NUMBER PRIMARY KEY,
+    location VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    phone_no VARCHAR(11) NOT NULL,
+    email VARCHAR(100) VARCHAR(100)
+);
+
+CREATE SEQUENCE showrooms_seq START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER showrooms_trigger
+BEFORE INSERT ON Showrooms
+FOR EACH ROW
+BEGIN
+    IF :NEW.showroom_id IS NULL THEN
+        SELECT showrooms_seq.NEXTVAL INTO :NEW.showroom_id FROM dual;
+    END IF;
+END;
+/

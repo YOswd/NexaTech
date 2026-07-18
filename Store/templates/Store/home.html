@@ -1,66 +1,123 @@
 {% extends 'Store/layout.html' %}
 
 {% block title %}
-Home
+    Home
 {% endblock %}
 
 {% block content %}
 
-<!-- Hero Section -->
-
-<div class="hero text-center">
-    <h1 class="display-4 fw-bold">
-        Welcome to NexaTech Solutions
-    </h1>
-
-    <p class="lead">
-        Your trusted destination for laptops, desktops and accessories.
-    </p>
-
-    <a href="{% url 'product_list' %}" class="btn btn-warning btn-lg">
-        Shop Now
-    </a>
+<!-- ================= HERO ================= -->
+<div class="hero text-center p-5 mb-5">
+    <h1 class="display-4 fw-bold">Welcome to NexaTech Solutions</h1>
+    <p class="lead">Your trusted destination for laptops, desktops and accessories.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-warning btn-lg">Shop Now</a>
 </div>
 
-<!-- Latest Products -->
-
-<h2 class="mb-4">Latest Products</h2>
-
+<!-- ================= FEATURED CATEGORIES ================= -->
+<h2 class="mb-4">Browse Categories</h2>
 <div class="row">
-
-{% for product in products %}
-
-<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-    <div class="card product-card shadow-sm h-100">
-
-        {% if product.image %}
-
-        <img
-        src="{{ product.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;">
-
-        {% else %}
-
-        <img src="https://placehold.co/300x220" class="card-img-top">
-
-        {% endif %}
-
-        <div class="card-body">
-            <h5>{{ product.product_name }}</h5>
-            <p class="text-success fw-bold">Tk {{ product.price }}</p>
-            <p>Stock :{{ product.stock_quantity }}</p>
+    {% for category in categories %}
+    <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+        <div class="card shadow-sm text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-laptop fs-1 text-primary"></i>
+                <h5 class="mt-3">{{ category.category_name }}</h5>
+            </div>
         </div>
+    </div>
+    {% endfor %}
+</div>
 
-        <div class="card-footer bg-white">
-            <a href="{% url 'product_details' product.id %}" class="btn btn-primary w-100">
-                View Details
-            </a>
-
+<!-- ================= COLLECTIONS ================= -->
+<h2 class="mt-5 mb-4">Collections</h2>
+<div class="row">
+    {% for item in collections %}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            {% if item.product.image %}
+            <img src="{{ item.product.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;">
+            {% else %}
+            <img src="https://placehold.co/400x220" class="card-img-top">
+            {% endif %}
+            
+            <div class="card-body">
+                <h5>{{ item.category.category_name }} Collection</h5>
+                <p class="fw-bold">{{ item.product.product_name }}</p>
+                <p class="text-success">Tk {{ item.product.price }}</p>
+                <a href="{% url 'product_details' item.product.id %}" class="btn btn-primary">View Details</a>
+            </div>
         </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- ================= TOP BRANDS ================= -->
+<h2 class="mt-5 mb-4">Top Brands</h2>
+<div class="row">
+    {% for brand in brands %}
+    <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h5>{{ brand.brand_name }}</h5>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- ================= WHY NEXATECH ================= -->
+<h2 class="mt-5 mb-4">Why NexaTech?</h2>
+<div class="row text-center">
+    <div class="col">
+        <i class="bi bi-shield-check fs-1 text-success"></i>
+        <h5>Genuine Products</h5>
+    </div>
+    <div class="col">
+        <i class="bi bi-award fs-1 text-success"></i>
+        <h5>Official Warranty</h5>
+    </div>
+    <div class="col">
+        <i class="bi bi-truck fs-1 text-success"></i>
+        <h5>Fast Delivery</h5>
+    </div>
+    <div class="col">
+        <i class="bi bi-headset fs-1 text-success"></i>
+        <h5>Customer Support</h5>
     </div>
 </div>
 
-{% endfor %}
+<!-- ================= SHOWROOM ================= -->
+<h2 class="mt-5 mb-4">Our Showrooms</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5>Khulna</h5>
+                <p>Royal Mor</p>
+                <p>Phone: 017xxxxxxxx</p>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5>Dhaka</h5>
+                <p>Bashundhara City</p>
+                <p>Phone: 018xxxxxxxx</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5>Chattogram</h5>
+                <p>GEC Circle</p>
+                <p>Phone: 019xxxxxxxx</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

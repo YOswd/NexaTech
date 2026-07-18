@@ -54,12 +54,59 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Categories
-                        </a>
-                    </li>
+                    {% for item in category_menu %}
 
+<li class="nav-item dropdown">
+
+    <a class="nav-link dropdown-toggle"
+       href="#"
+       role="button"
+       data-bs-toggle="dropdown">
+
+        {{ item.category.category_name }}
+
+    </a>
+
+
+    <ul class="dropdown-menu">
+
+
+        {% for brand in item.brands %}
+
+        <li>
+            <a class="dropdown-item" href="#">
+                {{ brand.brand_name }}
+            </a>
+        </li>
+
+        {% empty %}
+
+        <li>
+            <span class="dropdown-item text-muted">
+                No brands available
+            </span>
+        </li>
+
+        {% endfor %}
+
+
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+
+        <li>
+            <a class="dropdown-item fw-bold" href="#">
+                View All {{ item.category.category_name }}
+            </a>
+        </li>
+
+
+    </ul>
+
+</li>
+
+{% endfor %}
                 </ul>
 
                 <!-- Search -->

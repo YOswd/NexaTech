@@ -4,17 +4,53 @@ from .models import *
 # Create your views here.
 
 def home(request):
-    products = Product.objects.all()[:8]
     brands = Brand.objects.all()[:8]
+    categories = Category.objects.all()
+
+    category_menu = []
+
+    for category in categories:
+        category_brands = Brand.objects.filter(product_category=category).distinct()
+
+        category_menu.append({
+            "category": category,
+            "brands": category_brands
+        })
+
+    collections = []
+
+    for category in categories:
+        product = Product.objects.filter(category=category).first()
+
+        if product:
+            collections.append({
+                "category": category,
+                "product": product
+            })
+
     return render(request, "Store/home.html", {
-        "product": products,
-        "brand": brands
+        "categories": categories,
+        "brands": brands,
+        "collections": collections,
+        "category_menu": category_menu
     })
 
 def product_list(request):
+    category_menu = []
+
+    for category in Category.objects.all():
+        brands = Brand.objects.filter(product_category=category).distinct()
+
+        category_menu.append({
+            "category": category,
+            "brands": brands
+        })
+
     products = Product.objects.all()
+
     return render(request, "Store/product_list.html", {
-        "product":  products
+        "products":  products,
+        "category_menu": category_menu 
     })
 
 def product_details(request, id):
