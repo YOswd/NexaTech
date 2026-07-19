@@ -1,9 +1,94 @@
-{% extends 'Store/layout.html' %}
+{% extends "Store/layout.html" %}
 
 {% block content %}
 
-<h2>{{ product.product_name }}</h2>
+<div class="row">
+    <div class="col-md-5">
+        {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid">
+        {% endif %}
+    </div>
 
-...
+    <div class="col-md-7">
+        <h2>{{ product.product_name }}</h2>
+        <h3 class="text-success">Tk {{ product.price }}</h3>
+        <p>{{ product.description }}</p>
+        <p>Stock : {{ product.stock_quantity }}</p>
+        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning">
+            Add to Cart
+        </a>
+    </div>
+</div>
+
+<hr>
+
+<h3>Specifications</h3>
+<table class="table">
+    {% for spec in specifications %}
+    <tr>
+        <td>{{ spec.template.specification_name }}</td>
+        <td>{{ spec.specification_value }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    Rating:
+    ⭐ {{ average_rating|default:"No reviews yet" }}
+</p>
+
+<hr>
+
+<hr>
+
+<h3>Customer Reviews</h3>
+
+{% for review in reviews %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>{{ review.user.username }}</h5>
+        <p>
+            Rating: 
+            {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}⭐{% endif %}
+            {% endfor %}
+        </p>
+        <p>{{ review.comment }}</p>
+        <small>{{ review.date }}</small>
+    </div>
+</div>
+{% empty %}
+<p>No reviews yet.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<hr>
+
+<h3>Write a Review</h3>
+
+<form method="POST" action="{% url 'add_review' product.id %}">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label>Rating</label>
+        <select name="rating" class="form-control">
+            <option value="5">5 ⭐</option>
+            <option value="4">4 ⭐</option>
+            <option value="3">3 ⭐</option>
+            <option value="2">2 ⭐</option>
+            <option value="1">1 ⭐</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Comment</label>
+        <textarea name="comment" class="form-control" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>
+
+{% else %}
+<p>Please login to write a review.</p>
+{% endif %}
 
 {% endblock %}

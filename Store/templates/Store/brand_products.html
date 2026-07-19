@@ -1,0 +1,39 @@
+{% extends "Store/layout.html" %}
+
+{% block title %}
+{{ brand.brand_name }}
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">{{ brand.brand_name }} Products</h2>
+
+<div class="row">
+    {% for product in products %}
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card shadow-sm h-100">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;">
+            {% else %}
+            <img src="https://placehold.co/300x220" class="card-img-top">
+            {% endif %}
+            
+            <div class="card-body">
+                <h5>{{ product.product_name }}</h5>
+                <p class="text-success">Tk {{ product.price }}</p>
+                <p>Stock : {{ product.stock_quantity }}</p>
+            </div>
+            
+            <div class="card-footer">
+                <a href="{% url 'product_details' product.id %}" class="btn btn-primary w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p>No products available.</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

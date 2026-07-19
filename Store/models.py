@@ -94,7 +94,7 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    quantity = models.quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.product.product_name}"
@@ -129,8 +129,8 @@ class Review(models.Model):
     
 class Showroom(models.Model):
     location = models.CharField(max_length=100)
-    address = models.Charfield(max_length=255)
-    phone_no = models.Charfield(max_length=11)
+    address = models.CharField(max_length=255)
+    phone_no = models.CharField(max_length=11)
     email = models.EmailField(blank=True)
 
     def __str__(self):

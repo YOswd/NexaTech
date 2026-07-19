@@ -6,14 +6,13 @@
 
 {% block content %}
 
-<!-- ================= HERO ================= -->
-<div class="hero text-center p-5 mb-5">
+<div class="hero text-center text-white p-5 mb-5 rounded-3"
+     style="background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);">
     <h1 class="display-4 fw-bold">Welcome to NexaTech Solutions</h1>
     <p class="lead">Your trusted destination for laptops, desktops and accessories.</p>
     <a href="{% url 'product_list' %}" class="btn btn-warning btn-lg">Shop Now</a>
 </div>
 
-<!-- ================= FEATURED CATEGORIES ================= -->
 <h2 class="mb-4">Browse Categories</h2>
 <div class="row">
     {% for category in categories %}
@@ -21,14 +20,18 @@
         <div class="card shadow-sm text-center h-100">
             <div class="card-body">
                 <i class="bi bi-laptop fs-1 text-primary"></i>
-                <h5 class="mt-3">{{ category.category_name }}</h5>
+                <h5 class="mt-3">
+                    <a href="{% url 'category_products' category.id %}"
+                       class="text-decoration-none">
+                        {{ category.category_name }}
+                    </a>
+                </h5>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
 
-<!-- ================= COLLECTIONS ================= -->
 <h2 class="mt-5 mb-4">Collections</h2>
 <div class="row">
     {% for item in collections %}
@@ -41,7 +44,12 @@
             {% endif %}
             
             <div class="card-body">
-                <h5>{{ item.category.category_name }} Collection</h5>
+                <h5>
+                    <a class="dropdown-item fw-bold"
+                       href="{% url 'category_products' item.category.id %}">
+                        View All {{ item.category.category_name }}
+                    </a>
+                </h5>
                 <p class="fw-bold">{{ item.product.product_name }}</p>
                 <p class="text-success">Tk {{ item.product.price }}</p>
                 <a href="{% url 'product_details' item.product.id %}" class="btn btn-primary">View Details</a>
@@ -51,21 +59,23 @@
     {% endfor %}
 </div>
 
-<!-- ================= TOP BRANDS ================= -->
 <h2 class="mt-5 mb-4">Top Brands</h2>
 <div class="row">
     {% for brand in brands %}
     <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
         <div class="card shadow-sm text-center">
             <div class="card-body">
-                <h5>{{ brand.brand_name }}</h5>
+                <h5>
+                    <a href="{% url 'brand_products' brand.id %}" class="text-decoration-none">
+                        {{ brand.brand_name }}
+                    </a>
+                </h5>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
 
-<!-- ================= WHY NEXATECH ================= -->
 <h2 class="mt-5 mb-4">Why NexaTech?</h2>
 <div class="row text-center">
     <div class="col">
@@ -86,7 +96,6 @@
     </div>
 </div>
 
-<!-- ================= SHOWROOM ================= -->
 <h2 class="mt-5 mb-4">Our Showrooms</h2>
 <div class="row">
     <div class="col-md-4">

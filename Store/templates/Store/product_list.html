@@ -1,54 +1,61 @@
-{% extends 'Store/layout.html' %}
+{% extends "Store/layout.html" %}
 
-{% block title %}
-Products
-{% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block content %}
 
-<h2 class="mb-4">All Products</h2>
+<h2 class="mb-4">Products</h2>
 
-<div class="row">
-
-{% for product in products %}
-
-<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-    <div class="card h-100 shadow-sm product-card">
-
-        {% if product.image %}
-
-        <img src="{{ product.image.url }}" class="card-img-top" style="height:220px;object-fit:cover;">
-
-        {% else %}
-
-        <img src="https://placehold.co/300x220?text=No+Image" class="card-img-top">
-
-        {% endif %}
-
-        <div class="card-body">
-            <h5>{{ product.product_name }}</h5>
-            <small class="text-muted">{{ product.brand.brand_name }}</small>
-
-            <br><br>
-
-            <span class="badge bg-primary">{{ product.category.category_name }}</span>
-            <h5 class="mt-3 text-success">Tk {{ product.price }}</h5>
-            <p>Stock :{{ product.stock_quantity }}</p>
-
+<form method="GET">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <input class="form-control" name="search" placeholder="Search Product">
         </div>
-
-        <div class="card-footer bg-white border-0">
-            <a href="#" class="btn btn-primary w-100">View Details</a>
+        
+        <div class="col-md-3">
+            <select class="form-select" name="category">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.category_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="col-md-3">
+            <select class="form-select" name="brand">
+                <option value="">All Brands</option>
+                {% for brand in brands %}
+                <option value="{{ brand.id }}">{{ brand.brand_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">Filter</button>
         </div>
     </div>
-</div>
+</form>
 
-{% empty %}
-
-<div class="alert alert-warning">No Products Available</div>
-
-{% endfor %}
-
+<div class="row">
+    {% for product in products %}
+    <div class="col-lg-3 mb-4">
+        <div class="card shadow-sm h-100">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;">
+            {% endif %}
+            
+            <div class="card-body">
+                <h5>{{ product.product_name }}</h5>
+                <p class="text-success">Tk {{ product.price }}</p>
+                <p>Stock : {{ product.stock_quantity }}</p>
+            </div>
+            
+            <div class="card-footer">
+                <a href="{% url 'product_details' product.id %}" class="btn btn-primary w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}

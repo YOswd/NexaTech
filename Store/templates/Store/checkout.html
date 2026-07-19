@@ -1,0 +1,27 @@
+{% extends 'Store/layout.html' %}
+
+{% block content %}
+
+<h2>Checkout</h2>
+
+<table class="table">
+    {% for item in items %}
+    <tr>
+        <td>{{ item.product.product_name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>Tk {{ item.product.price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Grand Total : Tk {{ total }}</h3>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<button class="btn btn-success">Place Order</button>
+
+</form>
+
+{% endblock %}
